@@ -1,0 +1,138 @@
+/* .box {
+    width: 200px;
+    height: 200px;
+    background-color: red;
+    transition: background-color 0.5s;
+  }
+   */
+
+   .container {
+    /* text-align: center; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .floor{
+  height: 80vh;
+  width: 23.4vw;
+  background-color: chartreuse;
+  text-align: center;
+  }
+  
+  
+  .floor-buttons {
+    margin-bottom: 20px;
+  }
+  
+  .floor-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    margin-right: 10px;
+  }
+  .floorBtn{
+    padding: 10px 8px;
+    border-radius: 30px;
+    
+  }
+  .buttonGroup{
+    gap: 10px;
+    display: flex;
+    justify-content: center;
+    /* background-color: aqua; */
+    padding: 100px 0;
+  }
+  
+  .elevator-door {
+    /* display: flex;
+    flex-direction: row; */
+    transition: all 0.3s; 
+    position: relative;
+      width: 100%;
+      height: 100%;
+    /* background-color: yellow; */
+  }
+  
+  .elevator{
+    background-color: #888;
+    overflow: hidden;
+    margin: 0 auto;
+    width: 200px;
+    height: 300px;
+    position: relative;
+    top: 100px;
+    
+  }
+
+  .elevator-door::after{
+    content: '';
+    width: 50%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: red;
+    /* z-index: 10000; */
+  }
+  .elevator-door::before{
+    content: '';
+    width: 50%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    background-color: blue;
+  }
+  
+
+  .elevator-door.open {
+   width: 200px;
+    height: 300px;
+  }
+  
+  .direction{
+    top: -140px;
+   
+    left: 250px;
+    width: 40px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+    /* background-color: aquamarine; */
+  }
+
+  .powerStatus{
+    top: -130px;
+    left: 250px;
+    width: 40px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+
+  }
+
+  .pow{
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+  }
+
+  .AddPerson{
+    top: -130px;
+    left: 250px;
+    width: 40px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    background-color: red;
+  }
+
+  .add{
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+  }

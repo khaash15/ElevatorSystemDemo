@@ -1,0 +1,65 @@
+<!-- <div>
+  <h2>Button Box</h2>
+  <div>
+    <button *ngFor="let number of numbers" (click)="handleButtonClick(number)">{{ number }}</button>
+  </div>
+  <div class="box" [ngClass]="{ 'open': isOpen }">
+    <img *ngIf="isOpen" src="https://media2.giphy.com/media/hHsyFWOk9fOTmKyBno/giphy.gif?cid=ecf05e478kwfypu17ujgcxv0f0etgo21g38uo8gcy93ixw0z&ep=v1_gifs_related&rid=giphy.gif&ct=g" alt="Opening Lift" />
+  </div>
+  <div>
+    
+    <ng-container *ngIf="currentNumber === 1 || currentNumber === 20; else twoButtons">
+        <button (click)="handleButtonClick(currentNumber)">{{ currentNumber }}</button>
+      </ng-container>
+      <ng-template #twoButtons>
+        <button *ngFor="let number of [currentNumber - 1, currentNumber + 1]" (click)="handleButtonClick(number)">{{ number }}</button>
+      </ng-template>
+  </div>
+</div> -->
+
+
+    <div class="container">
+      <h1>Elevator Control Panel</h1>
+      <div class="floor-buttons">
+        <button class="floor-button" (click)="selectFloor(0)">GL</button>
+        <button class="floor-button" (click)="selectFloor(1)">1</button>
+        <button class="floor-button" (click)="selectFloor(2)">2</button>
+        <button class="floor-button" (click)="selectFloor(3)">3</button>
+        <!-- Add more floor buttons as needed -->
+      </div>
+      <!-- <div class="elevator-door" [class.open]="doorOpen"></div> -->
+      <div class="floor">
+        
+        <div class="elevator" [class.open]="doorOpen">
+          
+          <div class="elevator-door">
+            <div class ="buttonGroup">
+              <button class="floorBtn">GL</button>
+              <button class="floorBtn">1</button>
+              <button class="floorBtn">2</button>
+              <button class="floorBtn">3</button>
+            
+            </div>
+          </div>
+        </div>
+        
+        <!-- <img *ngIf="doorOpen" src="https://media2.giphy.com/media/hHsyFWOk9fOTmKyBno/giphy.gif?cid=ecf05e478kwfypu17ujgcxv0f0etgo21g38uo8gcy93ixw0z&ep=v1_gifs_related&rid=giphy.gif&ct=g" alt="Opening Lift" /> -->
+        <div class="direction">
+          <button class="dir" [hidden]="isTopFloor">🔼</button>
+          <button class="dir" [hidden]="isBottomFloor">🔽</button>
+          </div>
+          
+                      <div class="AddPerson">
+                        <button class="add" (click)="AddPerson()">+</button>
+                        </div>
+
+          <div class="powerStatus">
+            <button class="pow" [style.background-color]="power?'green':'red'" (click)="changePower()">P</button>
+            <button class="pow" [style.background-color]="generator?'green':'red'"(click)="changePower()">G</button>
+            </div>
+      </div>
+    </div>
+    
+    
+    
+    
