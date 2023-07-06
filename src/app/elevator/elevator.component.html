@@ -1,30 +1,8 @@
-<!-- <div>
-  <h2>Button Box</h2>
-  <div>
-    <button *ngFor="let number of numbers" (click)="handleButtonClick(number)">{{ number }}</button>
-  </div>
-  <div class="box" [ngClass]="{ 'open': isOpen }">
-    <img *ngIf="isOpen" src="https://media2.giphy.com/media/hHsyFWOk9fOTmKyBno/giphy.gif?cid=ecf05e478kwfypu17ujgcxv0f0etgo21g38uo8gcy93ixw0z&ep=v1_gifs_related&rid=giphy.gif&ct=g" alt="Opening Lift" />
-  </div>
-  <div>
-    
-    <ng-container *ngIf="currentNumber === 1 || currentNumber === 20; else twoButtons">
-        <button (click)="handleButtonClick(currentNumber)">{{ currentNumber }}</button>
-      </ng-container>
-      <ng-template #twoButtons>
-        <button *ngFor="let number of [currentNumber - 1, currentNumber + 1]" (click)="handleButtonClick(number)">{{ number }}</button>
-      </ng-template>
-  </div>
-</div> -->
-
-
     <div class="container">
       <h1>Elevator Control Panel</h1>
       <div class="floor-buttons">
-        <button class="floor-button" (click)="selectFloor(0)">GL</button>
-        <button class="floor-button" (click)="selectFloor(1)">1</button>
-        <button class="floor-button" (click)="selectFloor(2)">2</button>
-        <button class="floor-button" (click)="selectFloor(3)">3</button>
+
+        <button *ngFor="let fl of Floors" class="floor-button" (click)="selectFloor(fl)">{{fl== 0?'GL':fl}}</button>
         <!-- Add more floor buttons as needed -->
       </div>
       <!-- <div class="elevator-door" [class.open]="doorOpen"></div> -->
@@ -34,19 +12,30 @@
           
           <div class="elevator-door">
             <div class ="buttonGroup">
-              <button class="floorBtn">GL</button>
-              <button class="floorBtn">1</button>
-              <button class="floorBtn">2</button>
-              <button class="floorBtn">3</button>
-            
+              <button *ngFor="let fl of Floors" class="floorBtn">{{fl== 0?'GL':fl}}</button>
+            <button class ="floorBtn">E</button>
+            <button class ="floorBtn">🔔</button>
+            <!-- <bgsound src = "https://music.apple.com/us/album/elevator-music-lounge-chill-out-background-music/468166499"/> -->
+
+            </div>
+<p class ="Weight">Max Weight : 500kg</p>
+<p class ="Weight">Current Weight : {{SumWeight}}kg</p>
+            <div class="personsCont">
+
+<p class="per" *ngFor="let person of Persons">{{person}}</p>
             </div>
           </div>
         </div>
+
+        <!-- <audio class="liftSong" controls>
+          <source src="../../../music/for-elevator-jazz-music-124005.ogg" type="audio/ogg">
+          <source src="../../../music/for-elevator-jazz-music-124005.mp3" type="audio/mpeg">
+        </audio> -->
         
         <!-- <img *ngIf="doorOpen" src="https://media2.giphy.com/media/hHsyFWOk9fOTmKyBno/giphy.gif?cid=ecf05e478kwfypu17ujgcxv0f0etgo21g38uo8gcy93ixw0z&ep=v1_gifs_related&rid=giphy.gif&ct=g" alt="Opening Lift" /> -->
         <div class="direction">
-          <button class="dir" [hidden]="isTopFloor">🔼</button>
-          <button class="dir" [hidden]="isBottomFloor">🔽</button>
+          <button class="dir" (click)="openDoor('u')" [hidden]="isTopFloor">🔼</button>
+          <button class="dir" (click)="openDoor('d')"[hidden]="isBottomFloor">🔽</button>
           </div>
           
                       <div class="AddPerson">
