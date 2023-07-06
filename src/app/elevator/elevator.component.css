@@ -77,10 +77,11 @@ padding-top: 10px;
     width: 50%;
     height: 100%;
     position: absolute;
+    border-left:2px solid #e5e5e5;
     top: 0;
     right: var(--rightDoor);
     /* right: -100PX; */
-    background-color: red;
+    background-color: #36454F;
     /* z-index: 10000; */
   }
 
@@ -92,7 +93,7 @@ padding-top: 10px;
     position: absolute;
     left: var(--leftDoor);
     /* left: -100px; */
-    background-color: blue;
+    background-color: #36454F;
   }
   
 
@@ -145,7 +146,7 @@ padding-top: 10px;
     display: flex;
     flex-direction: column;
     padding: 10px;
-    background-color: red;
+    background-color: #36454F;
   }
 
   .add{

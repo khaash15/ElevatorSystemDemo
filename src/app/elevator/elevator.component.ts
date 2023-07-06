@@ -212,7 +212,7 @@ export class ElevatorComponent {
         clearTimeout(this.timer);
         this.closeDoor();
       } else {
-        console.log('Reached Maximum Limit');
+        alert('Reached Maximum Limit');
       }
     }
   }
