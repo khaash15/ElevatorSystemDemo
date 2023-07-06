@@ -53,7 +53,7 @@ export class ElevatorComponent {
   }
 
   moveLift() {
-    this.clossDoorLogic();
+    this.closeDoor();
     this.IsDoorOpen = !this.IsDoorOpen;
 
     setTimeout(() => {
@@ -62,28 +62,54 @@ export class ElevatorComponent {
         '--MoveElev',
         (this.Floors.length - 1 - this.activeFloor) * 400 + 'px'
       );
+      console.log('door');
     }, 500);
-    if (this.activeFloor == 0) {
-      this.isBottomFloor = true;
-      this.isTopFloor = false;
-    } else if (this.activeFloor == this.Floors.length - 1) {
-      this.isBottomFloor = false;
 
-      this.isTopFloor = true;
-    } else {
-      this.isTopFloor = false;
-      this.isBottomFloor = false;
-    }
+    // if (this.activeFloor == 0) {
+    //   this.isBottomFloor = true;
+    //   this.isTopFloor = false;
+    // } else if (this.activeFloor == this.Floors.length - 1) {
+    //   this.isBottomFloor = false;
+
+    //   this.isTopFloor = true;
+    // } else {
+    //   this.isTopFloor = false;
+    //   this.isBottomFloor = false;
+    // }
   }
 
   IsDoorOpen: boolean = false;
-  openDoor(dir: string) {
+
+  openDoorLogic() {
     var box: any = document.querySelector('.elevator-door');
     box.style.setProperty('--rightDoor', '-100px');
     box.style.setProperty('--leftDoor', '-100px');
-    this.IsDoorOpen = !this.IsDoorOpen;
+  }
+
+  openDoor(dir: string, fl: any) {
+    const currentFlr = this.Floors.length - fl - 1;
+    if (currentFlr == this.activeFloor) {
+      this.openDoorLogic();
+      this.IsDoorOpen = !this.IsDoorOpen;
+      this.closeDoor();
+    } else {
+      this.activeFloor = currentFlr;
+      this.closeDoor();
+      console.log(this.checkCloseDoor);
+
+      if (this.checkCloseDoor) this.moveLift();
+      setTimeout(() => {
+        this.openDoorLogic();
+      }, 4000);
+      setTimeout(() => {
+        this.closeDoor();
+      }, 5000);
+    }
+
+    console.log(this.activeFloor, currentFlr);
+
     // this.sound.play();
-    this.closeDoor();
+
     //var boxAfter: any = window.getComputedStyle(box, '::after');
     //boxAfter.top = parseFloat(boxAfter.top) - 1;
 
@@ -91,7 +117,7 @@ export class ElevatorComponent {
   }
 
   timer: any;
-
+  checkCloseDoor: boolean = false;
   clossDoorLogic() {
     var box: any = document.querySelector('.elevator-door');
     box.style.setProperty('--rightDoor', '0px');
@@ -99,6 +125,7 @@ export class ElevatorComponent {
   }
 
   closeDoor() {
+    this.checkCloseDoor = true;
     this.timer = setTimeout(() => {
       this.clossDoorLogic();
       this.IsDoorOpen = !this.IsDoorOpen;
