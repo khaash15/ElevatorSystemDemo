@@ -20,6 +20,9 @@
     padding: 10px 20px;
     font-size: 16px;
     margin-right: 10px;
+    border: 0;
+    background-color: #efefef;
+    border-radius: 5px;
   }
   .floorBtn{
     padding: 10px 8px;
@@ -158,4 +161,10 @@ padding-top: 10px;
 
   .per{
     margin: 0px;
+  }
+
+  .weight{
+    position: absolute;
+    font-size: 18px;
+
   }

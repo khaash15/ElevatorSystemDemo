@@ -20,7 +20,8 @@ export class ElevatorComponent {
   selectFloor(floor: number) {
     this.activeFloor = floor;
     this.moveLift();
-    console.log(floor);
+
+    // console.log(floor);
   }
   // sound: any = new Howl({
   //   src: [
@@ -52,16 +53,16 @@ export class ElevatorComponent {
   }
 
   moveLift() {
-    var elevator: any = document.querySelector('.elevator');
-    elevator.style.setProperty(
-      '--MoveElev',
-      (this.Floors.length - 1 - this.activeFloor) * 400 + 'px'
-    );
+    this.clossDoorLogic();
+    this.IsDoorOpen = !this.IsDoorOpen;
 
-    //window.scrollY = 500;
-    // console.log(scrool);
-
-    // this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+    setTimeout(() => {
+      var elevator: any = document.querySelector('.elevator');
+      elevator.style.setProperty(
+        '--MoveElev',
+        (this.Floors.length - 1 - this.activeFloor) * 400 + 'px'
+      );
+    }, 500);
     if (this.activeFloor == 0) {
       this.isBottomFloor = true;
       this.isTopFloor = false;
@@ -91,16 +92,20 @@ export class ElevatorComponent {
 
   timer: any;
 
-  closeDoor() {
+  clossDoorLogic() {
     var box: any = document.querySelector('.elevator-door');
+    box.style.setProperty('--rightDoor', '0px');
+    box.style.setProperty('--leftDoor', '0px');
+  }
+
+  closeDoor() {
     this.timer = setTimeout(() => {
-      box.style.setProperty('--rightDoor', '0px');
-      box.style.setProperty('--leftDoor', '0px');
+      this.clossDoorLogic();
       this.IsDoorOpen = !this.IsDoorOpen;
     }, 3000);
   }
 
-  Persons: Array<string> = [];
+  Persons: Array<any> = [];
   Floors: Array<number> = [0, 1, 2, 3, 4, 5];
   activeFloor: number = this.Floors[this.Floors.length - 1];
 
@@ -110,17 +115,27 @@ export class ElevatorComponent {
   power: boolean = true;
   generator: boolean = false;
   MaxWeight: number = 500;
-  CurrentWeight: number = 100;
+  // CurrentWeight: number;
   SumWeight: number = 0;
   changePower() {
     this.power = !this.power;
     this.generator = !this.generator;
   }
+
+  showWeight(person: any) {
+    person.showW = !person.showW;
+  }
   AddPerson() {
     if (this.IsDoorOpen) {
-      if (this.SumWeight < this.MaxWeight) {
-        this.Persons.push('😶');
-        this.SumWeight += this.CurrentWeight;
+      var personWeight: number = Math.floor(Math.random() * (120 - 30) + 30);
+      if (this.SumWeight + personWeight < this.MaxWeight) {
+        const person = {
+          per: '😶',
+          weight: personWeight,
+          showW: true,
+        };
+        this.Persons.push(person);
+        this.SumWeight += personWeight;
         console.log(this.Persons);
         clearTimeout(this.timer);
         this.closeDoor();

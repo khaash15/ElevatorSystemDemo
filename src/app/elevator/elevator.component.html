@@ -2,7 +2,7 @@
       <h1>Elevator Control Panel</h1>
       <div class="floor-buttons">
 
-        <button *ngFor="let fl of Floors" class="floor-button" (click)="selectFloor(fl)">{{fl== 0?'GL':fl}}</button>
+        <button *ngFor="let fl of Floors" class="floor-button" [style.color]="fl === activeFloor? 'red':'black'" (click)="selectFloor(fl)">{{fl== 0?'GL':fl}}</button>
         <!-- Add more floor buttons as needed -->
       </div>
       <!-- <div class="elevator-door" [class.open]="doorOpen"></div> -->
@@ -12,7 +12,7 @@
           
           <div class="elevator-door">
             <div class ="buttonGroup">
-              <button *ngFor="let fl of Floors" class="floorBtn">{{fl== 0?'GL':fl}}</button>
+              <button *ngFor="let fl of Floors" class="floorBtn" (click)="selectFloor(fl)">{{fl== 0?'GL':fl}}</button>
             <button class ="floorBtn">E</button>
             <button class ="floorBtn">🔔</button>
             <!-- <bgsound src = "https://music.apple.com/us/album/elevator-music-lounge-chill-out-background-music/468166499"/> -->
@@ -22,7 +22,11 @@
 <p class ="Weight">Current Weight : {{SumWeight}}kg</p>
             <div class="personsCont">
 
-<p class="per" *ngFor="let person of Persons">{{person}}</p>
+              <div class="per" *ngFor="let person of Persons">
+                <p class="per" (mouseenter)="showWeight(person)" (mouseleave)="showWeight(person)">{{person.per}}</p>
+                <p class="per weight" [hidden] = person.showW>{{person.weight}}</p>
+
+              </div>
             </div>
           </div>
         </div>
