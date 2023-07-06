@@ -29,13 +29,6 @@ export class ElevatorComponent {
   //   ],
   // });
 
-  // openDoor() {
-  //   this.doorOpen = true;
-  //   setTimeout(() => {
-  //     this.closeDoor();
-  //   }, 3000); // Close the door after 3 seconds (adjust as needed)
-  // }
-
   ngOnInit() {
     var box: any = document.querySelector('.elevator-door');
     var floor: any = document.querySelector('.floor');
@@ -63,17 +56,27 @@ export class ElevatorComponent {
         (this.Floors.length - 1 - this.activeFloor) * 400 + 'px'
       );
     }, 500);
-    if (this.activeFloor == 0) {
-      this.isBottomFloor = true;
-      this.isTopFloor = false;
-    } else if (this.activeFloor == this.Floors.length - 1) {
-      this.isBottomFloor = false;
 
-      this.isTopFloor = true;
-    } else {
-      this.isTopFloor = false;
-      this.isBottomFloor = false;
-    }
+    setTimeout(() => {
+      this.OpenDoorLogic();
+      this.IsDoorOpen = !this.IsDoorOpen;
+    }, 7000);
+    setTimeout(() => {
+      this.clossDoorLogic();
+      this.IsDoorOpen = !this.IsDoorOpen;
+    }, 2000);
+
+    // if (this.activeFloor == 0) {
+    //   this.isBottomFloor = true;
+    //   this.isTopFloor = false;
+    // } else if (this.activeFloor == this.Floors.length - 1) {
+    //   this.isBottomFloor = false;
+
+    //   this.isTopFloor = true;
+    // } else {
+    //   this.isTopFloor = false;
+    //   this.isBottomFloor = false;
+    // }
   }
 
   IsDoorOpen: boolean = false;
@@ -96,6 +99,11 @@ export class ElevatorComponent {
     var box: any = document.querySelector('.elevator-door');
     box.style.setProperty('--rightDoor', '0px');
     box.style.setProperty('--leftDoor', '0px');
+  }
+  OpenDoorLogic() {
+    var box: any = document.querySelector('.elevator-door');
+    box.style.setProperty('--rightDoor', '-100px');
+    box.style.setProperty('--leftDoor', '-100px');
   }
 
   closeDoor() {
@@ -143,5 +151,10 @@ export class ElevatorComponent {
         console.log('Reached Maximum Limit');
       }
     }
+  }
+  LiftOpen(Floors: any, fl: any) {
+    this.openDoor('u');
+    this.selectFloor(Floors.length - fl - 1);
+    // openDoor('d');selectFloor(Floors.length-fl-1)
   }
 }

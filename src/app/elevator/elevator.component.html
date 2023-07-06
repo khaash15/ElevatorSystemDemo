@@ -11,8 +11,8 @@
 
         <div *ngFor="let fl of Floors" class="floor-button" class="component">
           <div class="direction">
-          <button class="dir" (click)="openDoor('u')" [hidden]="fl === 0">🔼</button>
-          <button class="dir" (click)="openDoor('d')"[hidden]="Floors.length-1 === fl">🔽</button>
+          <button class="dir" (click)="LiftOpen(Floors,fl)" [hidden]="fl === 0">🔼</button>
+          <button class="dir" (click)="LiftOpen(Floors,fl)"[hidden]="Floors.length-1 === fl">🔽</button>
           </div>
           
                       <div class="AddPerson">
