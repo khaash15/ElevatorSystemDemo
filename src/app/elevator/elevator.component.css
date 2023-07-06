@@ -9,7 +9,6 @@
   .floor{
     width: 200px;
   height: var(--floorHeight);
-  background-color: chartreuse;
   text-align: center;
   position: relative;
   }

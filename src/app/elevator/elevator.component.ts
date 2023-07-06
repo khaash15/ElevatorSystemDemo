@@ -1,4 +1,14 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild, Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import {
+  FormGroup,
+  FormControl,
+  Validators,
+  FormBuilder,
+} from '@angular/forms';
+// @Injectable({
+//   providedIn: 'root',
+// })
 @Component({
   selector: 'app-elevator',
   templateUrl: './elevator.component.html',
@@ -15,6 +25,20 @@ export class ElevatorComponent {
   //   }, 3000);
   // }
 
+  constructor(private http: HttpClient, private fb: FormBuilder) {}
+  addPersonForm = this.fb.group({
+    id: [''],
+    toFloor: [''],
+  });
+  SubmitPerson() {
+    const idInput: any = document.querySelector('.personId');
+    console.log(idInput.value);
+    const ToFloorInput: any = document.querySelector('.DestFloor');
+    console.log(ToFloorInput.value);
+    this.AddPerson(idInput.value, ToFloorInput.value);
+    idInput.value = '';
+    ToFloorInput.value = '';
+  }
   doorOpen: boolean = false;
 
   selectFloor(floor: number) {
@@ -37,6 +61,19 @@ export class ElevatorComponent {
   // }
 
   ngOnInit() {
+    this.http
+      .get(
+        'https://team4-api-naf.azurewebsites.net/getNumberOfFloors/SEZ%20IT%20PARK'
+      )
+      .subscribe((res: any) => {
+        for (let i = 0; i <= res; i++) {
+          this.Floors.push(i);
+          this.activeFloor = this.Floors[this.Floors.length - 1];
+
+          this.moveLift();
+        }
+      });
+
     var box: any = document.querySelector('.elevator-door');
     var floor: any = document.querySelector('.floor');
 
@@ -46,7 +83,6 @@ export class ElevatorComponent {
     box.style.setProperty('--leftDoor', 0);
     floor.style.setProperty('--floorHeight', this.Floors.length * 400 + 'px');
 
-    this.moveLift();
     // let audio: any = new Audio(
     //   'https://drive.google.com/uc?export=download&id=1M95VOpto1cQ4FQHzNBaLf0WFQglrtWi7'
     // );
@@ -133,7 +169,7 @@ export class ElevatorComponent {
   }
 
   Persons: Array<any> = [];
-  Floors: Array<number> = [0, 1, 2, 3, 4, 5];
+  Floors: Array<number> = [];
   activeFloor: number = this.Floors[this.Floors.length - 1];
 
   isTopFloor: boolean = false;
@@ -152,17 +188,26 @@ export class ElevatorComponent {
   showWeight(person: any) {
     person.showW = !person.showW;
   }
-  AddPerson() {
+  showForm: boolean = true;
+  showFormFn() {
+    this.showForm = !this.showForm;
+  }
+  AddPerson(idInput: any, ToFloorInput: any) {
     if (this.IsDoorOpen) {
       var personWeight: number = Math.floor(Math.random() * (120 - 30) + 30);
       if (this.SumWeight + personWeight < this.MaxWeight) {
         const person = {
+          id: idInput,
+          DestinationFloor: ToFloorInput,
           per: '😶',
           weight: personWeight,
           showW: true,
         };
-        this.Persons.push(person);
-        this.SumWeight += personWeight;
+        if (idInput != '') {
+          this.showForm = true;
+          this.Persons.push(person);
+          this.SumWeight += personWeight;
+        }
         console.log(this.Persons);
         clearTimeout(this.timer);
         this.closeDoor();
