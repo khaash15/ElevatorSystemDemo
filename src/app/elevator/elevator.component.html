@@ -7,6 +7,23 @@
       </div>
       <!-- <div class="elevator-door" [class.open]="doorOpen"></div> -->
       <div class="floor">
+
+
+        <div *ngFor="let fl of Floors" class="floor-button" class="component">
+          <div class="direction">
+          <button class="dir" (click)="openDoor('u')" [hidden]="fl === 0">🔼</button>
+          <button class="dir" (click)="openDoor('d')"[hidden]="Floors.length-1 === fl">🔽</button>
+          </div>
+          
+                      <div class="AddPerson">
+                        <button class="add" (click)="AddPerson()">+</button>
+                        </div>
+
+          <div class="powerStatus">
+            <button class="pow" [style.background-color]="power?'green':'red'" (click)="changePower()">P</button>
+            <button class="pow" [style.background-color]="generator?'green':'red'"(click)="changePower()">G</button>
+            </div>
+          </div>
         
         <div class="elevator" [class.open]="doorOpen">
           
@@ -37,19 +54,7 @@
         </audio> -->
         
         <!-- <img *ngIf="doorOpen" src="https://media2.giphy.com/media/hHsyFWOk9fOTmKyBno/giphy.gif?cid=ecf05e478kwfypu17ujgcxv0f0etgo21g38uo8gcy93ixw0z&ep=v1_gifs_related&rid=giphy.gif&ct=g" alt="Opening Lift" /> -->
-        <div class="direction">
-          <button class="dir" (click)="openDoor('u')" [hidden]="isTopFloor">🔼</button>
-          <button class="dir" (click)="openDoor('d')"[hidden]="isBottomFloor">🔽</button>
-          </div>
-          
-                      <div class="AddPerson">
-                        <button class="add" (click)="AddPerson()">+</button>
-                        </div>
-
-          <div class="powerStatus">
-            <button class="pow" [style.background-color]="power?'green':'red'" (click)="changePower()">P</button>
-            <button class="pow" [style.background-color]="generator?'green':'red'"(click)="changePower()">G</button>
-            </div>
+        
       </div>
     </div>
     
