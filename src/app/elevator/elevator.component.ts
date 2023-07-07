@@ -9,6 +9,7 @@ import {
 // @Injectable({
 //   providedIn: 'root',
 // })
+import { LiftServicesService } from '../lift-services.service';
 @Component({
   selector: 'app-elevator',
   templateUrl: './elevator.component.html',
@@ -25,11 +26,19 @@ export class ElevatorComponent {
   //   }, 3000);
   // }
 
-  constructor(private http: HttpClient, private fb: FormBuilder) {}
+  constructor(
+    private http: HttpClient,
+    private fb: FormBuilder,
+    private lift: LiftServicesService
+  ) {}
   addPersonForm = this.fb.group({
     id: [''],
     toFloor: [''],
   });
+
+  BuildingName = this.lift.BuildingName;
+  NumberOfFloors = this.lift.NumberOfFloors;
+  personBuildingName = '';
   SubmitPerson(fl: any) {
     fl.showAddPerson = !fl.showAddPerson;
     const idInput: any = document.querySelector('.personId');
@@ -37,18 +46,50 @@ export class ElevatorComponent {
     this.AddPerson(idInput.value, ToFloorInput.value);
     const test: any = {
       fromFloor: this.activeFloor,
-      buildingName: 'abcd',
+      buildingName: this.BuildingName,
       toFloor: ToFloorInput.value,
     };
     // id : string 7b3eaa23-269c-42dd-deae-08db7e1e974c
     this.http
-      .post(
-        `https://team4-api-naf.azurewebsites.net/Person/${idInput.value}`,
-        test
+      .get(
+        `https://team4-api-naf.azurewebsites.net/getBuildingName/${idInput.value}`
       )
-      .subscribe((res) => {
-        console.log(res);
+      .subscribe((val: any) => {
+        console.log(val['buildingName']);
+        this.personBuildingName = val['buildingName'] as string;
+        console.log(
+          this.BuildingName.toLocaleLowerCase() +
+            ',' +
+            this.personBuildingName.toLocaleLowerCase()
+        );
+        if (
+          this.BuildingName.toLocaleLowerCase() ===
+          this.personBuildingName.toLocaleLowerCase()
+        ) {
+          this.http
+            .post(
+              `https://team4-api-naf.azurewebsites.net/Person/${idInput.value}`,
+              test
+            )
+            .subscribe((res) => {
+              console.log(res);
+            });
+
+          this.http
+            .delete(
+              `https://team4-api-naf.azurewebsites.net/deletePersons/${test.toFloor}`
+            )
+            .subscribe((val: any) => {
+              console.log(val);
+              setTimeout(() => {
+                alert('person ' + idInput.value + ' stepped out');
+              });
+            });
+        } else {
+          alert('Person not belongs to this building');
+        }
       });
+
     this.activeFloor = ToFloorInput.value;
     this.moveLift();
     idInput.value = '';
@@ -78,7 +119,7 @@ export class ElevatorComponent {
   ngOnInit() {
     this.http
       .get(
-        'https://team4-api-naf.azurewebsites.net/getNumberOfFloors/SEZ%20IT%20PARK'
+        `https://team4-api-naf.azurewebsites.net/getNumberOfFloors/${this.BuildingName}`
       )
       .subscribe((res: any) => {
         for (let i = 0; i <= res; i++) {

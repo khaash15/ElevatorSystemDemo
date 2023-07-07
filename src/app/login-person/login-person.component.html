@@ -1,0 +1,22 @@
+<form
+  class="example-form"
+  [formGroup]="loginForm"
+  (ngSubmit)="onSubmitDetails()"
+>
+  <mat-form-field class="example-full-width">
+    <mat-label>BuildingName</mat-label>
+    <input matInput type="text" formControlName="buildingName" />
+  </mat-form-field>
+  <br />
+  <mat-form-field class="example-full-width">
+    <mat-label>From Floor</mat-label>
+    <input matInput type="text" formControlName="fromFloor" />
+  </mat-form-field>
+  <br />
+  <mat-form-field class="example-full-width">
+    <mat-label>To Floor</mat-label>
+    <input matInput type="text" formControlName="ToFloor" />
+  </mat-form-field>
+  <br />
+  <button type="submit">Login</button><br />
+</form>

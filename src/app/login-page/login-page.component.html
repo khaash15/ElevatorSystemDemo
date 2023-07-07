@@ -1,0 +1,16 @@
+<img src="https://wallpaperaccess.com/full/1802075.jpg"/>
+<h1>Building System</h1>
+
+<form
+  class="example-form"
+  [formGroup]="loginForm"
+  (ngSubmit)="onSubmitDetails()"
+>
+  <mat-form-field class="example-full-width">
+    <mat-label>BuildingName</mat-label>
+    <input matInput type="text" formControlName="BuildingName" />
+  </mat-form-field>
+  <br />
+  <button mat-raised-button color="primary" type="submit">Login</button><br />
+  <button mat-raised-button color="primary" type="submit" routerLink="/">Sign Up</button>
+</form>
