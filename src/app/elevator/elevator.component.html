@@ -4,31 +4,38 @@
     <button
       *ngFor="let fl of Floors"
       class="floor-button"
-      [style.color]="fl === activeFloor ? 'red' : 'black'"
-      (click)="selectFloor(fl)"
+      [style.color]="fl.floor == activeFloor ? 'red' : 'black'"
+      (click)="selectFloor(fl.floor)"
     >
-      {{ fl == 0 ? "GL" : fl }}
+      {{ fl.floor == 0 ? "GL" : fl.floor }}
     </button>
     <!-- Add more floor buttons as needed -->
   </div>
   <!-- <div class="elevator-door" [class.open]="doorOpen"></div> -->
+
   <div class="floor">
     <div *ngFor="let fl of Floors" class="floor-button" class="component">
+      <h1>{{ Floors.length - fl.floor - 1 || "GF" }}</h1>
       <div class="direction">
-        <button class="dir" (click)="openDoor('u', fl)" [hidden]="fl === 0">
+        <button
+          class="dir"
+          (click)="openDoor('u', fl)"
+          [hidden]="fl.floor === 0"
+        >
           🔼
         </button>
+
         <button
           class="dir"
           (click)="openDoor('d', fl)"
-          [hidden]="Floors.length - 1 === fl"
+          [hidden]="Floors.length - 1 === fl.floor"
         >
           🔽
         </button>
       </div>
 
       <div class="AddPerson">
-        <button class="add" (click)="showFormFn()">+</button>
+        <button class="add" (click)="showFormFn(fl)">+</button>
       </div>
 
       <div class="powerStatus">
@@ -47,19 +54,22 @@
           G
         </button>
       </div>
-      <div class="FormComp" [hidden]="showForm">
+
+      <div class="FormComp" [hidden]="fl.showAddPerson">
         <input
           class="personId"
           placeholder="Enter Person Id"
           [value]="addPersonForm.get('id')?.value"
         />
         <input
+          type="number"
           class="DestFloor"
           placeholder="Enter Destination Floor"
           [value]="addPersonForm.get('toFloor')?.value"
         />
-        <button (click)="SubmitPerson()">Submit</button>
+        <button (click)="SubmitPerson(fl)">Submit</button>
       </div>
+
       <!-- <div class="AddPersonForm">
         <input type="number" placeholder="Enter person ID" />
         <input type="text" placeholder="Enter to Floor" />
@@ -73,12 +83,10 @@
           <button
             *ngFor="let fl of Floors"
             class="floorBtn"
-            (click)="selectFloor(fl)"
+            (click)="selectFloor(fl.floor)"
           >
-            {{ fl == 0 ? "GL" : fl }}
+            {{ fl.floor == 0 ? "GL" : fl.floor }}
           </button>
-          <button class="floorBtn">E</button>
-          <button class="floorBtn">🔔</button>
           <!-- <bgsound src = "https://music.apple.com/us/album/elevator-music-lounge-chill-out-background-music/468166499"/> -->
         </div>
         <p class="Weight">Max Weight : 500kg</p>

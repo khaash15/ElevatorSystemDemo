@@ -30,12 +30,27 @@ export class ElevatorComponent {
     id: [''],
     toFloor: [''],
   });
-  SubmitPerson() {
+  SubmitPerson(fl: any) {
+    fl.showAddPerson = !fl.showAddPerson;
     const idInput: any = document.querySelector('.personId');
-    console.log(idInput.value);
     const ToFloorInput: any = document.querySelector('.DestFloor');
-    console.log(ToFloorInput.value);
     this.AddPerson(idInput.value, ToFloorInput.value);
+    const test: any = {
+      fromFloor: this.activeFloor,
+      buildingName: 'abcd',
+      toFloor: ToFloorInput.value,
+    };
+    // id : string 7b3eaa23-269c-42dd-deae-08db7e1e974c
+    this.http
+      .post(
+        `https://team4-api-naf.azurewebsites.net/Person/${idInput.value}`,
+        test
+      )
+      .subscribe((res) => {
+        console.log(res);
+      });
+    this.activeFloor = ToFloorInput.value;
+    this.moveLift();
     idInput.value = '';
     ToFloorInput.value = '';
   }
@@ -67,21 +82,23 @@ export class ElevatorComponent {
       )
       .subscribe((res: any) => {
         for (let i = 0; i <= res; i++) {
-          this.Floors.push(i);
-          this.activeFloor = this.Floors[this.Floors.length - 1];
-
+          this.Floors.push({ floor: i, showAddPerson: true });
+          this.activeFloor = this.Floors[this.Floors.length - 1].floor;
           this.moveLift();
+
+          var box: any = document.querySelector('.elevator-door');
+          var floor: any = document.querySelector('.floor');
+
+          box.style.setProperty('--rightDoor', 0);
+          box.style.setProperty('--leftDoor', 0);
+          floor.style.setProperty(
+            '--floorHeight',
+            this.Floors.length * 400 + 'px'
+          );
         }
       });
 
-    var box: any = document.querySelector('.elevator-door');
-    var floor: any = document.querySelector('.floor');
-
     // this.sound.play();
-
-    box.style.setProperty('--rightDoor', 0);
-    box.style.setProperty('--leftDoor', 0);
-    floor.style.setProperty('--floorHeight', this.Floors.length * 400 + 'px');
 
     // let audio: any = new Audio(
     //   'https://drive.google.com/uc?export=download&id=1M95VOpto1cQ4FQHzNBaLf0WFQglrtWi7'
@@ -98,7 +115,6 @@ export class ElevatorComponent {
         '--MoveElev',
         (this.Floors.length - 1 - this.activeFloor) * 400 + 'px'
       );
-      console.log('door');
     }, 500);
 
     // if (this.activeFloor == 0) {
@@ -123,7 +139,9 @@ export class ElevatorComponent {
   }
 
   openDoor(dir: string, fl: any) {
-    const currentFlr = this.Floors.length - fl - 1;
+    const currentFlr = this.Floors.length - fl.floor - 1;
+    console.log(fl);
+
     if (currentFlr == this.activeFloor) {
       this.openDoorLogic();
       this.IsDoorOpen = !this.IsDoorOpen;
@@ -131,7 +149,7 @@ export class ElevatorComponent {
     } else {
       this.activeFloor = currentFlr;
       this.closeDoor();
-      console.log(this.checkCloseDoor);
+      // console.log(this.checkCloseDoor);
 
       if (this.checkCloseDoor) this.moveLift();
       setTimeout(() => {
@@ -142,7 +160,7 @@ export class ElevatorComponent {
       }, 5000);
     }
 
-    console.log(this.activeFloor, currentFlr);
+    // console.log(this.activeFloor, currentFlr);
 
     // this.sound.play();
 
@@ -169,7 +187,7 @@ export class ElevatorComponent {
   }
 
   Persons: Array<any> = [];
-  Floors: Array<number> = [];
+  Floors: Array<any> = [];
   activeFloor: number = this.Floors[this.Floors.length - 1];
 
   isTopFloor: boolean = false;
@@ -188,9 +206,12 @@ export class ElevatorComponent {
   showWeight(person: any) {
     person.showW = !person.showW;
   }
-  showForm: boolean = true;
-  showFormFn() {
-    this.showForm = !this.showForm;
+
+  showFormFn(fl: any) {
+    console.log(this.Floors.length - fl.floor - 1);
+
+    if (this.Floors.length - fl.floor - 1 == this.activeFloor)
+      fl.showAddPerson = !fl.showAddPerson;
   }
   AddPerson(idInput: any, ToFloorInput: any) {
     if (this.IsDoorOpen) {
@@ -204,11 +225,10 @@ export class ElevatorComponent {
           showW: true,
         };
         if (idInput != '') {
-          this.showForm = true;
           this.Persons.push(person);
           this.SumWeight += personWeight;
         }
-        console.log(this.Persons);
+        // console.log(this.Persons);
         clearTimeout(this.timer);
         this.closeDoor();
       } else {
